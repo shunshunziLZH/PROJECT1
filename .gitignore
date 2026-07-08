@@ -1,0 +1,93 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Environments
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+env/
+ENV/
+conda-meta/
+
+# Logs / temporary files
+logs/
+*.log
+tmp/
+temp/
+*.tmp
+
+# Datasets and local data
+datasets/
+basicsr/data/DATA/
+basicsr/data/*/DATA/
+data/
+DATA/
+*.lmdb
+*.mdb
+*.tfrecord
+
+# Training outputs and model artifacts
+experiments/**
+!experiments/
+!experiments/**/
+!experiments/**/README.md
+!experiments/**/.gitkeep
+results/
+*results*/
+runs/
+wandb/
+tensorboard/
+checkpoints/
+outputs/
+
+# Model weights / exported models
+*.pth
+*.pt
+*.ckpt
+*.safetensors
+*.onnx
+*.engine
+*.trt
+
+# Generated media / reports
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.tif
+*.tiff
+*.gif
+*.mp4
+*.avi
+*.mov
+*.webm
+
+# Large archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.rar
