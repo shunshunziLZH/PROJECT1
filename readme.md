@@ -11,6 +11,23 @@
 
 ## NAFNet: Nonlinear Activation Free Network for Image Restoration
 
+### Underwater restoration: Stage 2 neural physics bank
+
+This workspace also contains a complete Stage 2 pipeline for learning neural keys from
+`[T, B, 1-T]`, learning restoration values from `[J, J-I]`, and building a
+training-split-only offline degradation bank. It includes synchronized four-field data
+loading, pretraining/resume, incremental embedding extraction, keys-only K-means,
+bank validation, and global/token-wise Top-K retrieval.
+
+```bash
+python scripts/train_bank.py --config configs/bank_stage2.yaml
+python scripts/extract_bank_embeddings.py --config configs/bank_stage2.yaml --checkpoint outputs/bank_stage2/best.pt
+python scripts/build_neural_bank.py --config configs/bank_stage2.yaml --embeddings artifacts/bank_embeddings --output artifacts/neural_physics_bank_v0.pt
+python scripts/validate_neural_bank.py --bank artifacts/neural_physics_bank_v0.pt
+```
+
+See [Stage 2 Neural Physics Degradation Bank](docs/Stage2_Neural_Physics_Bank.md) for the data contract, configuration, checkpoint formats, and failure handling. For moving the implementation to a GPU server that currently has only Stage 1, use the [Stage 2 server agent handoff](docs/Stage2_Server_Agent_Handoff.md).
+
 The official pytorch implementation of the paper **[Simple Baselines for Image Restoration (ECCV2022)](https://arxiv.org/abs/2204.04676)**
 
 #### Liangyu Chen\*, Xiaojie Chu\*, Xiangyu Zhang, Jian Sun

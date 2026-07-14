@@ -1,0 +1,88 @@
+# Stage 2: Neural Physics Degradation Bank
+seed: 42
+device: auto
+
+data:
+  # Expected layout: root/{I,J,T,B}/<same-id>.<image-extension>
+  root: basicsr/data/DATA
+  val_ratio: 0.1
+  patch_size: 64
+  patches_per_image: 8
+  use_hflip: true
+  use_vflip: true
+  use_rot90: true
+  cache_data: none
+  validate_tensors: true
+  range_tolerance: 0.0001
+  # Exported 8-bit maps have quantization/model residuals; dataset p99 is ~0.123.
+  physical_error_warn: 0.10
+  physical_error_fail: null
+  physical_warning_limit: 5
+  # Small worker-local LRU; grouped sampling decodes each image once for its patches.
+  decode_cache_size: 2
+  ram_cache_max_gib: 4.0
+  # stat is fast (name/size/mtime); use content for a full byte-level SHA-256 scan.
+  fingerprint_mode: stat
+  train_limit: null
+  val_limit: null
+
+model:
+  key_dim: 64
+  value_dim: 128
+  projection_dim: 64
+  base_channels: 32
+
+stage1:
+  # Set to a tb_prediction checkpoint (best.pth/last.pth) to enable L_query.
+  checkpoint: null
+  # Only needed to override a plain state_dict checkpoint.
+  base_channels: null
+
+loss:
+  lambda_grad: 0.1
+  lambda_ssim: 0.2
+  lambda_fft: 0.05
+  lambda_restore: 1.0
+  lambda_key: 0.5
+  lambda_align: 0.1
+  lambda_query: 0.2
+  lambda_inv: 0.1
+  lambda_rank: 0.0
+  rank_margin: 0.05
+  tau_physical: 0.2
+  tau_embedding: 0.1
+  physical_relation_size: 8
+
+training:
+  output_dir: outputs/bank_stage2
+  batch_size: 32
+  epochs: 60
+  warmup_epochs: 10
+  learning_rate: 0.0002
+  weight_decay: 0.0001
+  gradient_clip_norm: 1.0
+  use_amp: true
+  num_workers: 8
+  val_frequency: 1
+  diagnostic_frequency: 1
+  log_frequency: 20
+  resume: null
+
+extraction:
+  output_dir: artifacts/bank_embeddings
+  batch_size: 64
+  num_workers: 8
+  chunk_size: 4096
+  patches_per_image: 8
+
+bank:
+  output: artifacts/neural_physics_bank_v0.pt
+  num_prototypes: 64
+  trim_fraction: 0.2
+  max_iterations: 100
+  batch_size: 4096
+  seed: 42
+
+retrieval:
+  top_k: 4
+  temperature: 0.1

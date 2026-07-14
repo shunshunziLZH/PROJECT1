@@ -6,6 +6,13 @@ Thumbs.db
 *.swp
 *.swo
 
+# Local agent/task metadata
+.agents/
+.codex/
+AGENT.md
+task.md
+task.MD
+
 # Python
 __pycache__/
 *.py[cod]
@@ -38,15 +45,20 @@ tmp/
 temp/
 *.tmp
 
-# Datasets and local data
-datasets/
-basicsr/data/DATA/
-basicsr/data/*/DATA/
-data/
-DATA/
+# Datasets and local data (never sync training data through Git)
+/dataset/
+/datasets/
+/data/
+/DATA/
+/basicsr/data/DATA/
+/basicsr/data/*/DATA/
+/raw_data/
+/raw_datasets/
 *.lmdb
 *.mdb
 *.tfrecord
+*.h5
+*.hdf5
 
 # Training outputs and model artifacts
 experiments/**
@@ -59,8 +71,10 @@ results/
 runs/
 wandb/
 tensorboard/
+events.out.tfevents.*
 checkpoints/
 outputs/
+artifacts/
 
 # Model weights / exported models
 *.pth
